@@ -55,8 +55,38 @@ aside.right{border-right:0;border-left:1px solid var(--line);padding:18px 18px 0
 .card h3{margin:0;font-size:18px}.card p{margin:8px 0 0;font-size:10px;color:var(--muted);line-height:1.7}.qrRow{display:flex;gap:18px;margin-top:16px}.qrRow div{flex:1;text-align:center;border:1px solid var(--line);border-radius:10px;padding:9px;background:rgba(13,38,66,.4)}.qrRow img{width:148px;height:148px;object-fit:contain;background:#fff;border-radius:6px;padding:4px}.qrRow em{display:block;font-style:normal;font-size:9px;color:var(--muted);margin-top:6px}
 .mail{display:block;margin-top:14px;color:var(--teal2);font-family:"SF Mono",Menlo,monospace;font-size:12px}.close{float:right;color:var(--muted);cursor:pointer;font-size:18px}
 .toast{position:fixed;left:50%;top:78px;transform:translateX(-50%);background:linear-gradient(135deg,var(--teal),var(--blue));color:#04111f;font-family:"SF Mono",Menlo,monospace;font-size:10px;padding:9px 14px;border-radius:8px;z-index:60;opacity:0;transition:.2s;pointer-events:none;font-weight:700}
+
+  /* ── DSH 侧栏主面板模式 ── */
+  body.panel .app{width:100vw;height:100vh;grid-template-rows:52px 1fr 36px}
+  body.panel main{grid-template-columns:232px 1fr 284px}
+  body.panel header{padding:0 14px;gap:8px}
+  body.panel .logo{width:32px;height:32px}
+  body.panel .title b{font-size:11px}
+  body.panel .title span{font-size:7px}
+  body.panel .project{display:none}
+  body.panel .pill{font-size:8px;padding:3px 7px;margin-left:4px}
+  body.panel aside{padding:10px 10px 0}
+  body.panel aside.right{padding:10px 12px 0}
+  body.panel .center{padding:8px 10px 0}
+  body.panel .sec{margin-bottom:6px}
+  body.panel .drop{padding:9px}
+  body.panel .file{margin-top:5px;padding:5px 7px}
+  body.panel .tpl .th{height:42px}
+  body.panel .stage{border-radius:10px}
+  body.panel .timeline{margin-top:6px;padding:7px 9px}
+  body.panel .field{padding:5px 0}
+  body.panel .license{padding:8px;margin-top:7px}
+  body.panel .commercial{padding:8px;margin-top:7px}
+  body.panel .commercial img{width:46px;height:46px}
+  body.panel .gen{padding:9px;margin-top:7px}
+  body.panel .foot{padding:0 12px}
+  body.panel .dwh{height:17px;width:103px}
+  body.panel .overlay{font-size:7px;left:9px;top:8px}
+  body.panel .mode button{font-size:7px;padding:6px 3px}
+  body.panel .check li{font-size:8px}
+  body.panel .note{font-size:8px}
 </style></head><body>
-<script>function fitPage(){const app=document.querySelector('.app');if(!app)return;const s=Math.min(innerWidth/1920,innerHeight/1080);app.style.zoom=String(s);}addEventListener('resize',fitPage);addEventListener('DOMContentLoaded',fitPage);setTimeout(fitPage,0);</script>
+<script>const __panel=new URLSearchParams(location.search).has('panel');if(__panel)document.documentElement.classList.add('panel');function fitPage(){const app=document.querySelector('.app');if(!app)return;if(__panel){document.body.classList.add('panel');app.style.zoom='1';return;}const s=Math.min(innerWidth/1920,innerHeight/1080);app.style.zoom=String(s);}addEventListener('resize',fitPage);addEventListener('DOMContentLoaded',fitPage);setTimeout(fitPage,0);</script>
 <div class="blob b1"></div><div class="blob b2"></div>
 <div class="app">
 <header>

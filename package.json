@@ -1,6 +1,6 @@
 {
   "name": "@deepwhale-cn/dsh-teardown-studio",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "DeepWhale Teardown Studio: upload a pre-separated 3D model, render a teardown video locally.",
   "type": "module",
   "main": "./lib/index.js",
@@ -25,7 +25,8 @@
     "vendor",
     "cordis.patch.yml",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "icon.svg"
   ],
   "keywords": [
     "dsh",
@@ -43,7 +44,8 @@
     },
     "client": {
       "inject": [],
-      "platform": "web"
+      "platform": "web",
+      "immediately": true
     }
   },
   "meta": {
@@ -56,5 +58,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "icon": "./icon.svg"
 }
