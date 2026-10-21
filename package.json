@@ -1,0 +1,60 @@
+{
+  "name": "@deepwhale-cn/dsh-teardown-studio",
+  "version": "0.1.6",
+  "description": "DeepWhale Teardown Studio: upload a pre-separated 3D model, render a teardown video locally.",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "dsh": ">=0.1.0-rc.6 <0.3.0",
+    "node": ">=20"
+  },
+  "files": [
+    "lib",
+    "studio",
+    "teardown-v1",
+    "teardown",
+    "tools",
+    "vendor",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepwhale",
+    "3d",
+    "teardown"
+  ],
+  "license": "MIT",
+  "author": "温州深鲸智能科技有限公司 <service@deepwhale.org>",
+  "homepage": "https://deepwhale.org.cn",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [],
+      "platform": "web"
+    }
+  },
+  "meta": {
+    "title": "拆解工作室",
+    "description": "上传已分件 3D，选模板，本地生成拆解视频；不内置 Chromium/ffmpeg。"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feely0208/dsh-teardown-studio.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

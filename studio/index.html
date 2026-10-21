@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>DeepWhale · Teardown Studio</title>
+<style>
+:root{--bg:#061324;--bg2:#0a1c33;--bg3:#0e2745;--teal:#17c8b3;--teal2:#4fe3cf;--blue:#1f8fff;--ink:#e7f1ff;--muted:#9fb3cc;--line:rgba(120,180,255,.16);--glass:rgba(13,38,66,.55);--warn:#ffc46b;}
+*{box-sizing:border-box}html,body{margin:0;width:100vw;height:100vh;overflow:hidden;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+body{display:flex;align-items:center;justify-content:center;background:radial-gradient(900px 500px at 18% 0%,rgba(23,200,179,.10),transparent 60%),radial-gradient(800px 600px at 88% 100%,rgba(31,143,255,.10),transparent 60%),var(--bg)}
+.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.25;pointer-events:none}.b1{width:520px;height:520px;background:#0f4b6e;top:-180px;left:-160px}.b2{width:420px;height:420px;background:#0a5a4e;bottom:-160px;right:-120px}
+.app{position:relative;flex:none;width:1920px;height:1080px;display:grid;grid-template-rows:64px 1fr 44px}
+header{display:flex;align-items:center;gap:13px;padding:0 26px;border-bottom:1px solid var(--line);background:rgba(6,19,36,.72);backdrop-filter:blur(14px);z-index:5}
+.logo{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(23,200,179,.25))}
+.title b{display:block;font-size:15px;letter-spacing:.06em}.title span{display:block;font-size:8px;letter-spacing:.26em;color:var(--muted);margin-top:3px;font-family:"SF Mono",Menlo,monospace}
+.pill{font-size:10px;color:var(--teal2);border:1px solid rgba(23,200,179,.35);background:rgba(23,200,179,.08);padding:5px 9px;border-radius:999px;margin-left:12px}
+.project{margin-left:28px;font-family:"SF Mono",Menlo,monospace;font-size:9px;letter-spacing:.1em;color:var(--muted)}.project b{color:var(--ink);font-weight:400}
+header .grow{flex:1}
+.link{font-size:11px;color:var(--muted)}.link:hover{color:var(--teal2)}
+.avatar{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:linear-gradient(135deg,#123a66,#0a5a4e)}
+main{display:grid;grid-template-columns:300px 1fr 362px;min-height:0}
+aside{border-right:1px solid var(--line);padding:18px 16px 0;background:rgba(8,26,44,.35);overflow:hidden}
+aside.right{border-right:0;border-left:1px solid var(--line);padding:18px 18px 0;background:rgba(8,26,44,.28)}
+.sec{display:flex;align-items:center;justify-content:space-between;font-family:"SF Mono",Menlo,monospace;font-size:8px;letter-spacing:.22em;color:var(--muted);margin:0 0 9px}.sec b{font-weight:400;color:var(--teal2)}
+.drop{border:1px dashed rgba(23,200,179,.38);border-radius:12px;background:rgba(13,38,66,.45);padding:14px;cursor:pointer;transition:.2s}
+.drop:hover{border-color:var(--teal);background:rgba(23,200,179,.07)}
+.drop .top{display:flex;align-items:center;gap:10px}.plus{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,rgba(23,200,179,.22),rgba(31,143,255,.16));border:1px solid rgba(23,200,179,.35);display:flex;align-items:center;justify-content:center;color:var(--teal2);font-size:16px}
+.drop b{display:block;font-size:12px;font-weight:600}.drop span{display:block;font-size:9px;color:var(--muted);margin-top:4px;line-height:1.5}
+.file{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);background:rgba(13,38,66,.5);border-radius:9px;padding:7px 9px;margin-top:8px;font-family:"SF Mono",Menlo,monospace;font-size:9px;color:var(--muted)}.file b{color:var(--ink);font-weight:400}
+.note{font-size:9px;line-height:1.65;color:#7f97ae;margin-top:7px}.note.warn{color:var(--warn)}
+.tplRow{display:flex;gap:9px;margin-top:2px}.tpl{flex:1;border:1px solid var(--line);border-radius:11px;background:rgba(13,38,66,.45);padding:5px;cursor:pointer;position:relative;transition:.2s}
+.tpl.on{border-color:var(--teal);box-shadow:0 0 0 1px rgba(23,200,179,.25)}
+.tpl .th{height:56px;border-radius:7px;background-size:cover;background-position:center;border:1px solid rgba(255,255,255,.06)}
+.tpl .nm{font-size:9px;margin-top:6px}.tpl .en{font-family:"SF Mono",Menlo,monospace;font-size:7px;color:var(--muted);margin-top:1px}
+.tpl .chk{position:absolute;right:8px;top:8px;width:13px;height:13px;border-radius:50%;background:var(--teal);color:#04111f;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:800}
+.check{list-style:none;padding:0;margin:0;border-top:1px solid var(--line);padding-top:8px}.check li{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:10px;color:var(--muted)}.check i{width:6px;height:6px;border-radius:50%;background:#587184;display:inline-block}.check i.ok{background:var(--teal);box-shadow:0 0 8px rgba(23,200,179,.7)}.check i.no{background:var(--warn)}.check b{margin-left:auto;font-family:"SF Mono",Menlo,monospace;font-size:8px;font-weight:400;color:#6f8aa0}
+.center{padding:14px 18px 0;display:flex;flex-direction:column;min-width:0}
+.toolbar{display:flex;align-items:center;gap:14px;font-family:"SF Mono",Menlo,monospace;font-size:8px;letter-spacing:.14em;color:var(--muted);margin-bottom:9px}.tab{padding:5px 0;border-bottom:1px solid transparent;color:var(--muted)}.tab.on{color:var(--ink);border-color:var(--teal2)}
+.toolbar .r{margin-left:auto;display:flex;gap:8px}.chip{border:1px solid var(--line);border-radius:999px;padding:4px 8px;color:var(--muted);background:rgba(13,38,66,.4)}
+.stage{position:relative;flex:1;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#07111b}.stage:after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 70px rgba(0,0,0,.55);pointer-events:none;z-index:2}
+.frame{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}.frame iframe{width:1920px;height:1080px;border:0;display:block}
+.overlay{position:absolute;left:14px;top:12px;z-index:3;font-family:"SF Mono",Menlo,monospace;font-size:8px;letter-spacing:.18em;color:rgba(231,241,255,.72)}.overlay b{color:var(--teal2);font-weight:400}
+.timeline{border:1px solid var(--line);border-radius:12px;background:rgba(13,38,66,.4);margin-top:10px;padding:10px 12px}
+.tlTop{display:flex;justify-content:space-between;font-family:"SF Mono",Menlo,monospace;font-size:8px;color:var(--muted);letter-spacing:.12em}.tlTop b{color:var(--teal2);font-weight:400}
+.bar{position:relative;height:2px;background:rgba(120,180,255,.15);margin-top:12px}.fill{position:absolute;left:0;top:0;height:2px;width:0;background:linear-gradient(90deg,var(--teal),var(--blue))}
+.node{position:absolute;top:-3px;width:8px;height:8px;border-radius:50%;background:#0d2231;border:1px solid rgba(120,180,255,.5);transform:translateX(-50%)}.node.on{background:var(--teal);border-color:var(--teal);box-shadow:0 0 10px rgba(23,200,179,.8)}
+.phase{display:flex;justify-content:space-between;margin-top:8px;font-family:"SF Mono",Menlo,monospace;font-size:7px;color:#5f7d94}
+.field{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(120,180,255,.1);padding:7px 0;font-size:10px;color:var(--muted)}.field b{font-weight:400;color:var(--ink);font-family:"SF Mono",Menlo,monospace;font-size:9px}.field .v{color:var(--teal2)}
+.sw{display:flex;gap:7px;margin-top:8px}.sw div{flex:1;height:30px;border:1px solid var(--line);border-radius:7px;font-size:8px;color:#6f8aa0;display:flex;align-items:flex-end;padding:4px;cursor:pointer}
+.sw .w{background:linear-gradient(180deg,#f4f7fa,#dce4ea);color:#334653}.sw .g{background:#b9c4cc;color:#334653}.sw .on{border-color:var(--teal);box-shadow:0 0 0 1px rgba(23,200,179,.25)}.sw .up{background:repeating-linear-gradient(45deg,#0b1926,#0b1926 5px,#102436 5px,#102436 10px)}
+.miniDrop{border:1px dashed rgba(23,200,179,.25);border-radius:8px;padding:7px 8px;font-size:9px;color:var(--muted);margin-top:7px;cursor:pointer;display:flex;gap:7px;align-items:center}.miniDrop:hover{border-color:var(--teal)}.miniDrop span{color:var(--teal2);font-size:12px}
+.license{border:1px solid rgba(23,200,179,.28);border-radius:12px;background:linear-gradient(135deg,rgba(23,200,179,.10),rgba(13,38,66,.5));padding:10px;margin-top:11px}.license .k{font-family:"SF Mono",Menlo,monospace;font-size:7px;letter-spacing:.2em;color:var(--teal2)}.license b{display:block;font-size:14px;margin-top:5px;font-weight:600}.license span{display:block;font-size:8px;color:var(--muted);margin-top:4px;line-height:1.5}
+.commercial{border:1px solid var(--line);border-radius:12px;background:rgba(13,38,66,.45);padding:10px;margin-top:9px;display:flex;gap:9px;align-items:center;cursor:pointer}.commercial img{width:58px;height:58px;border-radius:6px;background:#fff;padding:3px}.commercial .c{flex:1}.commercial .k{font-family:"SF Mono",Menlo,monospace;font-size:7px;letter-spacing:.18em;color:var(--teal2)}.commercial b{display:block;font-size:11px;margin-top:4px}.commercial span{display:block;font-size:8px;color:var(--muted);margin-top:3px}.commercial .arrow{color:var(--teal2);font-size:14px}
+.gen{margin-top:11px;border-radius:11px;background:linear-gradient(135deg,var(--teal),var(--blue));color:#04111f;text-align:center;padding:11px;font-family:"SF Mono",Menlo,monospace;font-size:11px;letter-spacing:.1em;font-weight:800;cursor:pointer;box-shadow:0 8px 24px rgba(23,200,179,.2)}
+.gen:hover{filter:brightness(1.06)}
+.foot{display:flex;align-items:center;padding:0 24px;border-top:1px solid var(--line);background:rgba(6,19,36,.8);font-family:"SF Mono",Menlo,monospace;font-size:8px;color:#5f7d94;letter-spacing:.06em}.foot .grow{flex:1}.dwh{height:20px;width:121px;object-fit:contain;opacity:.95;background:transparent;padding:0;border-radius:0}.dot{width:6px;height:6px;border-radius:50%;background:var(--teal);display:inline-block;margin-right:6px;box-shadow:0 0 8px rgba(23,200,179,.8)}
+.modal{position:fixed;inset:0;background:rgba(2,8,16,.74);backdrop-filter:blur(6px);z-index:50;display:none;align-items:center;justify-content:center}.modal.on{display:flex}
+.card{width:520px;border:1px solid rgba(23,200,179,.28);border-radius:18px;background:linear-gradient(180deg,rgba(10,31,52,.98),rgba(6,19,36,.98));padding:24px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.card h3{margin:0;font-size:18px}.card p{margin:8px 0 0;font-size:10px;color:var(--muted);line-height:1.7}.qrRow{display:flex;gap:18px;margin-top:16px}.qrRow div{flex:1;text-align:center;border:1px solid var(--line);border-radius:10px;padding:9px;background:rgba(13,38,66,.4)}.qrRow img{width:148px;height:148px;object-fit:contain;background:#fff;border-radius:6px;padding:4px}.qrRow em{display:block;font-style:normal;font-size:9px;color:var(--muted);margin-top:6px}
+.mail{display:block;margin-top:14px;color:var(--teal2);font-family:"SF Mono",Menlo,monospace;font-size:12px}.close{float:right;color:var(--muted);cursor:pointer;font-size:18px}
+.toast{position:fixed;left:50%;top:78px;transform:translateX(-50%);background:linear-gradient(135deg,var(--teal),var(--blue));color:#04111f;font-family:"SF Mono",Menlo,monospace;font-size:10px;padding:9px 14px;border-radius:8px;z-index:60;opacity:0;transition:.2s;pointer-events:none;font-weight:700}
+</style></head><body>
+<script>function fitPage(){const app=document.querySelector('.app');if(!app)return;const s=Math.min(innerWidth/1920,innerHeight/1080);app.style.zoom=String(s);}addEventListener('resize',fitPage);addEventListener('DOMContentLoaded',fitPage);setTimeout(fitPage,0);</script>
+<div class="blob b1"></div><div class="blob b2"></div>
+<div class="app">
+<header>
+  <img class="logo" src="assets/whale-logo.png" alt="DeepWhale">
+  <div class="title"><b>DEEPWHALE · TEARDOWN STUDIO</b><span>3D TEARDOWN VIDEO / LOCAL</span></div>
+  <span class="pill">FREE 内测</span>
+  <div class="project">PROJECT <b id="projName">无人机成品 42s</b> <span>/ 本地渲染</span></div>
+  <div class="grow"></div>
+  <a class="link" href="https://deepwhale.org.cn" target="_blank">官网</a>
+  <a class="link" href="mailto:service@deepwhale.org">联系</a>
+  <div class="avatar"></div>
+</header>
+<main>
+  <aside class="left">
+    <div class="sec">01 模式 <b>PIPELINE</b></div>
+    <div class="mode"><button id="modeDrone" class="on">无人机成品 42s</button><button id="modeModel">我的分件 3D</button></div>
+    <div class="sec">02 模型 <b>MODEL</b></div>
+    <div class="drop" id="modelDrop"><div class="top"><div class="plus">+</div><div><b id="modelName">上传分件 3D</b><span>GLB / GLTF / OBJ / FBX</span></div></div></div>
+    <div class="file"><b id="modelFile">guarded-drone.glb</b><span id="modelSize">18.4 MB</span></div>
+    <div class="note">必须是已经拆好、分件命名的模型；单网格模型不支持。</div>
+    <div class="note warn">图纸上传 / 图生3D / 自动拆解：本版不提供。</div>
+
+    <div class="sec" style="margin-top:16px">03 模板 <b>TEMPLATE</b></div>
+    <div class="tplRow">
+      <div class="tpl" data-tpl="01"><div class="th" style="background-image:url('thumbs/t1.jpg')"></div><div class="nm">深鲸冷黑</div><div class="en">DARK / #01</div></div>
+      <div class="tpl on" data-tpl="02"><div class="th" style="background-image:url('thumbs/t2.jpg')"></div><div class="chk">✓</div><div class="nm">白棚工业</div><div class="en">CLEAN / #02</div></div>
+    </div>
+
+    <div class="sec" style="margin-top:16px">04 检查 <b>CHECK</b></div>
+    <ul class="check">
+      <li><i id="ck1"></i>分件结构 <b id="ck1t">等待模型</b></li>
+      <li><i class="ok"></i>部件命名 <b>建议</b></li>
+      <li><i class="no" id="ck3"></i>单网格 <b id="ck3t">不支持</b></li>
+      <li><i class="ok"></i>本地缓存 <b>自动</b></li>
+    </ul>
+  </aside>
+
+  <section class="center">
+    <div class="toolbar"><div class="tab on">模板预览 / PREVIEW</div><div class="tab">时间线 / TIMELINE</div><div class="r"><div class="chip">1080P</div><div class="chip">30 FPS</div><div class="chip" id="durChip">42 S</div></div></div>
+    <div class="stage" id="stage"><div class="overlay">TEMPLATE <b>#02 / CLEAN STUDIO</b> · 预览</div><div class="frame" id="frame"><iframe src="../teardown-v1/index.html?template=02&embed=1" scrolling="no"></iframe></div></div>
+    <div class="timeline"><div class="tlTop"><span>TIMELINE / 拆解阶段</span><b id="tlTotal">00:00 / 00:42</b></div><div class="bar" id="bar"><div class="fill" id="fill"></div><div class="node on" style="left:0%"></div><div class="node" style="left:14%"></div><div class="node" style="left:28%"></div><div class="node" style="left:42%"></div><div class="node" style="left:56%"></div><div class="node" style="left:70%"></div><div class="node" style="left:84%"></div><div class="node" style="left:100%"></div></div><div class="phase"><span>整机</span><span>上壳</span><span>电池</span><span>涵道</span><span>电机</span><span>螺旋桨</span><span>云台</span><span>全拆</span></div></div>
+  </section>
+
+  <aside class="right">
+    <div class="sec">输出 <b>OUTPUT</b></div>
+    <div class="field"><span>分辨率</span><b class="v">1920 × 1080</b></div>
+    <div class="field"><span>帧率</span><b class="v">30 FPS</b></div>
+    <div class="field"><span>时长</span><b class="v" id="durVal">42 s</b></div>
+    <div class="field"><span>编码</span><b>H.264 / 12 Mbps</b></div>
+
+    <div class="sec" style="margin-top:12px">背景 <b>BACKGROUND</b></div>
+    <div class="sw"><div class="w on">白棚</div><div class="g">浅灰</div><div class="up">上传</div></div>
+    <div class="miniDrop" id="bgDrop"><span>+</span><b id="bgName">上传本地背景图片 / 视频</b></div>
+    <div class="note">JPG / PNG / MP4 · 仅本地处理</div>
+
+    <div class="sec" style="margin-top:12px">音乐 <b>AUDIO</b></div>
+    <div class="miniDrop" id="musicDrop"><span>+</span><b id="musicName">上传本地音乐</b></div>
+    <div class="note">MP3 / WAV / M4A · 版权归用户</div>
+
+    <div class="license"><div class="k">LICENSE / FREE</div><b>个人 · 非商用免费</b><span>商用 / 客户交付 / 白标需商业授权 · 导出带 powered by dwh</span></div>
+
+    <div class="commercial" id="commercial"><img src="assets/wecom-qr.png" alt="企业微信"><div class="c"><div class="k">COMMERCIAL / 合作</div><b>商业授权 · 企业定制 · 模板合作</b><span>service@deepwhale.org · 扫码联系</span></div><div class="arrow">›</div></div>
+
+    <div class="gen" id="genBtn">生成视频 →</div>
+    <div class="note" style="text-align:center">本地渲染 · 模型不上传云端 · 生成后自动缓存</div>
+  </aside>
+</main>
+<footer class="foot"><span class="dot"></span>本地处理 · 自动保存 <span style="margin-left:18px">渲染队列 0</span><div class="grow"></div><span id="engine" style="margin-right:14px">检测渲染引擎…</span><span style="margin-right:12px">DEEPWHALE.ORG.CN</span><img class="dwh" src="../teardown-v1/assets/deepwhale-badge.png" alt="powered by dwh"></footer>
+</div>
+
+<input type="file" id="modelInput" accept=".glb,.gltf,.obj,.fbx" style="display:none">
+<input type="file" id="bgInput" accept="image/*,video/mp4,video/webm" style="display:none">
+<input type="file" id="musicInput" accept="audio/*" style="display:none">
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="modal"><div class="card"><span class="close" id="close">×</span><h3>商业授权 / 企业定制</h3><p>免费版仅限个人非商用。商用、客户交付、白标、批量与定制模板，请联系我们。</p><div class="qrRow"><div><img src="assets/wecom-qr.png" alt="企业微信"><em>企业微信 · 扫码添加</em></div><div><img src="assets/wechat-qr.png" alt="公众号"><em>微信公众号 · 关注深鲸</em></div></div><a class="mail" href="mailto:service@deepwhale.org">service@deepwhale.org</a></div></div>
+
+<script>
+const iframe=document.querySelector('.frame iframe');
+const toast=(m)=>{const t=document.getElementById('toast');t.textContent=m;t.style.opacity='1';clearTimeout(window.__t);window.__t=setTimeout(()=>t.style.opacity='0',2200)};
+function fit(){const s=document.getElementById('stage').getBoundingClientRect();const f=document.getElementById('frame');const sc=Math.min(s.width/1920,s.height/1080);f.style.transform=`scale(${sc})`;f.style.left=`${(s.width-1920*sc)/2}px`;f.style.top=`${(s.height-1080*sc)/2}px`;}
+addEventListener('resize',fit);fit();
+
+document.getElementById('modeDrone').onclick=()=>{mode='drone';document.getElementById('projName').textContent='无人机成品 42s';document.getElementById('tlTotal').textContent='00:00 / 00:42';document.getElementById('durVal').textContent='42 s';document.getElementById('durChip').textContent='42 S';document.getElementById('modeDrone').classList.add('on');document.getElementById('modeModel').classList.remove('on');toast('已切换：无人机成品 42 秒管线');};
+document.getElementById('modeModel').onclick=()=>{mode='model';document.getElementById('projName').textContent='我的分件 3D';document.getElementById('tlTotal').textContent='00:00 / 00:15';document.getElementById('durVal').textContent='15 s';document.getElementById('durChip').textContent='15 S';document.getElementById('modeModel').classList.add('on');document.getElementById('modeDrone').classList.remove('on');toast('已切换：上传分件 3D 管线');};
+document.getElementById('modelDrop').onclick=()=>document.getElementById('modelInput').click();
+let modelHash=null,bgUrl='',musicUrl='',mode='drone';
+async function uploadModel(f){
+  const b=document.getElementById('modelName');b.textContent='检查分件中…';
+  try{
+    const r=await fetch('/api/model?name='+encodeURIComponent(f.name),{method:'POST',body:f});
+    const d=await r.json(); if(!r.ok)throw new Error(d.error||'上传失败');
+    modelHash=d.hash;mode='model';document.getElementById('projName').textContent='我的分件 3D';document.getElementById('tlTotal').textContent='00:00 / 00:15';document.getElementById('durVal').textContent='15 s';document.getElementById('durChip').textContent='15 S';document.getElementById('durVal').textContent='15 s';document.getElementById('durChip').textContent='15 S';document.getElementById('modeModel').classList.add('on');document.getElementById('modeDrone').classList.remove('on');try{iframe.contentWindow.postMessage({type:'model',url:d.modelUrl,explode:false},'*');}catch(e){}
+    document.getElementById('modelName').textContent=f.name;
+    document.getElementById('modelFile').textContent=f.name;
+    document.getElementById('modelSize').textContent=(f.size/1048576).toFixed(1)+' MB';
+    const ck=document.getElementById('ck1'),ct=document.getElementById('ck1t');
+    if(d.parts>1){ck.className='ok';ct.textContent=d.parts+' 部件';document.getElementById('ck3').className='ok';document.getElementById('ck3t').textContent='通过';toast('分件检查通过：'+d.parts+' 个部件 · 已缓存');}
+    else{ck.className='no';ct.textContent='单网格';document.getElementById('ck3').className='no';document.getElementById('ck3t').textContent='不支持';toast('检测到单网格，请在 Blender/C4D 分件后再上传');}
+  }catch(e){document.getElementById('modelName').textContent='上传失败';toast(e.message);}
+}
+document.getElementById('modelInput').onchange=(e)=>{const f=e.target.files[0];if(f)uploadModel(f);};
+async function uploadAsset(kind,f,label){
+  try{const r=await fetch('/api/asset?kind='+kind+'&name='+encodeURIComponent(f.name),{method:'POST',body:f});const d=await r.json();if(!r.ok)throw new Error(d.error||'上传失败');if(kind==='bg')bgUrl=d.url;else musicUrl=d.url;document.getElementById(label).textContent=f.name;toast((kind==='bg'?'背景':'音乐')+'已保存到本地：'+f.name);}catch(e){toast(e.message);}
+}
+document.getElementById('bgDrop').onclick=()=>document.getElementById('bgInput').click();
+document.getElementById('bgInput').onchange=(e)=>{const f=e.target.files[0];if(f)uploadAsset('bg',f,'bgName');};
+document.getElementById('musicDrop').onclick=()=>document.getElementById('musicInput').click();
+document.getElementById('musicInput').onchange=(e)=>{const f=e.target.files[0];if(f)uploadAsset('music',f,'musicName');};
+document.querySelectorAll('.tpl').forEach(el=>el.onclick=()=>{document.querySelectorAll('.tpl').forEach(x=>{x.classList.remove('on');x.querySelector('.chk')?.remove()});el.classList.add('on');const c=document.createElement('div');c.className='chk';c.textContent='✓';el.appendChild(c);const tpl=el.dataset.tpl;iframe.src=`../teardown-v1/index.html?template=${tpl}&embed=1`;document.querySelector('.overlay').innerHTML=`TEMPLATE <b>#${tpl} / ${tpl==='02'?'CLEAN STUDIO':'DARK GRAPHITE'}</b> · 预览`;toast('已切换模板 #'+tpl);});
+fetch('/api/health').then(r=>r.json()).then(h=>{const e=document.getElementById('engine');const b=h.browser&&h.browser.ok,f=h.ffmpeg&&h.ffmpeg.ok;e.textContent=(b?'系统 '+(h.browser.kind||'浏览器')+' ✓':'浏览器未安装')+' · '+(f?'ffmpeg ✓':'ffmpeg 缺失 / WebM 降级');}).catch(()=>{document.getElementById('engine').textContent='渲染引擎检测失败';});
+document.getElementById('commercial').onclick=()=>document.getElementById('modal').classList.add('on');
+document.getElementById('close').onclick=()=>document.getElementById('modal').classList.remove('on');
+document.getElementById('modal').onclick=(e)=>{if(e.target.id==='modal')document.getElementById('modal').classList.remove('on')};
+document.getElementById('genBtn').onclick=async()=>{
+  if(mode==='model'&&!modelHash){toast('请先上传已分件的 GLB 模型');return;}
+  const b=document.getElementById('genBtn');b.textContent='生成中 · 本地渲染';toast(mode==='drone'?'无人机成品 42 秒开始渲染':'任务已加入本地渲染队列');
+  try{
+    const body=mode==='drone'?{template:'drone42',theme:document.querySelector('.tpl.on')?.dataset.tpl||'02'}:{hash:modelHash,bgUrl,musicUrl};
+    const r=await fetch('/api/render',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d=await r.json();if(!r.ok)throw new Error(d.error||'渲染失败');
+    const poll=async()=>{const j=await (await fetch('/api/job/'+d.id)).json();if(j.status==='running'){setTimeout(poll,2000);return;}if(j.status==='done'){b.textContent='下载视频 →';b.onclick=()=>window.open(j.url,'_blank');toast('渲染完成：'+j.url);}else{b.textContent='生成视频 →';toast('渲染失败：'+(j.error||'未知'));}};poll();
+  }catch(e){b.textContent='生成视频 →';toast(e.message);}
+};
+</script>
+</body></html>

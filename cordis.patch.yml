@@ -1,0 +1,4 @@
+# @deepwhale-cn/dsh-teardown-studio
+- insert:
+    - id: teardown-studio
+      name: '@deepwhale-cn/dsh-teardown-studio'
