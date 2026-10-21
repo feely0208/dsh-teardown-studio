@@ -1,4 +1,4 @@
-# 拆解工作室 · DeepWhale Teardown Studio
+# 深鲸拆解 · DeepWhale Teardown Studio
 
 上传**已经分件**的 3D，或直接用内置「无人机成品 42s」模板，在本地生成拆解视频。
 
@@ -8,7 +8,7 @@
 dsh plugin --profile web add @deepwhale-cn/dsh-teardown-studio
 ```
 
-装完重启 DeepWhale Desktop，右下角进入「拆解工作室」。
+装完重启 DeepWhale Desktop，右下角进入「深鲸拆解」。
 
 ## 能力
 
