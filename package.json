@@ -1,6 +1,6 @@
 {
   "name": "@deepwhale-cn/dsh-teardown-studio",
-  "version": "0.2.5",
+  "version": "0.1.0",
   "description": "DeepWhale Teardown Studio: upload a pre-separated 3D model, render a teardown video locally.",
   "type": "module",
   "main": "./lib/index.js",
